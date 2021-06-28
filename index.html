@@ -29,9 +29,27 @@
 			let autor = document.getElementById('autor').value;
 
 			if(enunciado!='' && alt_certa!='' && alt_2!='' && alt_3!='' && alt_4!='' && nivel!='' && autor){
+				let ultimo;
+
+				while(true){
+					ultimo = enunciado;
+					enunciado = enunciado.replace("\n", "montebellerzFON");
+					if(ultimo==enunciado){
+						break;
+					}
+				}
+
+				while(true){
+					ultimo = enunciado;
+					enunciado = enunciado.replace("montebellerzFON", "\\n");
+					if(ultimo==enunciado){
+						break;
+					}
+				}
+
 				questoes.push(new Pergunta(enunciado, alt_certa, alt_2, alt_3, alt_4, nivel, autor));
 
-				document.getElementById('registros').innerHTML += `<button id='quest_${questoes.length-1}' class='pergunta' onclick="remover('${questoes.length-1}')">Pergunta('${enunciado}', '${alt_certa}', '${alt_2}', '${alt_3}', '${alt_4}', ${nivel}, '${autor}')</button>`;
+				document.getElementById('registros').innerHTML += `<div><button id='quest_${questoes.length-1}' class='pergunta' onclick="remover('${questoes.length-1}')">Pergunta('${enunciado}', '${alt_certa}', '${alt_2}', '${alt_3}', '${alt_4}', ${nivel}, '${autor}')</button></div>`;
 			}
 			else{
 				alert("algum campo está incompleto.");
@@ -45,7 +63,7 @@
 				document.getElementById('registros').innerHTML = '';
 
 				for(let i=0;i<questoes.length;i++){
-					document.getElementById('registros').innerHTML += `<button id='quest_${i}' onclick="remover(${i})">Pergunta('${questoes[i].enunciado}', '${questoes[i].alt_certa}', '${questoes[i].alt_2}', '${questoes[i].alt_3}', '${questoes[i].alt_4}', ${questoes[i].nivel}, '${questoes[i].autor}')</button>`;
+					document.getElementById('registros').innerHTML += `<div><button id='quest_${i}' onclick="remover(${i})">Pergunta('${questoes[i].enunciado}', '${questoes[i].alt_certa}', '${questoes[i].alt_2}', '${questoes[i].alt_3}', '${questoes[i].alt_4}', ${questoes[i].nivel}, '${questoes[i].autor}')</button></div>`;
 				}
 			}
 		}
@@ -137,7 +155,7 @@
 		</div>
 		<div class="div">
 			<h2>Seus Registros:</h2>
-			<div id="registros"></div>	
+			<div id="registros"></div>
 		</div>
 	</div>
 </body>
