@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>GERADOR DE PERGUNTA</title>
+
+	<script type="text/javascript">
+		var questoes = new Array();
+
+		class Pergunta{
+			constructor(enunciado, alt_certa, alt_2, alt_3, alt_4, nivel, autor){
+				this.enunciado = enunciado;
+				this.alt_certa = alt_certa;
+				this.alt_2 = alt_2;
+				this.alt_3 = alt_3;
+				this.alt_4 = alt_4;
+				this.nivel = nivel;
+				this.autor = autor;
+			}
+		}
+
+		function registrar(){
+			let enunciado = document.getElementById('enunciado').value;
+			let alt_certa = document.getElementById('alt_certa').value;
+			let alt_2 = document.getElementById('alt_2').value;
+			let alt_3 = document.getElementById('alt_3').value;
+			let alt_4 = document.getElementById('alt_4').value;
+			let nivel = document.getElementById('nivel').value;
+			let autor = document.getElementById('autor').value;
+
+			if(enunciado!='' && alt_certa!='' && alt_2!='' && alt_3!='' && alt_4!='' && nivel!='' && autor){
+				questoes.push(new Pergunta(enunciado, alt_certa, alt_2, alt_3, alt_4, nivel, autor));
+
+				document.getElementById('registros').innerHTML += `<button id='quest_${questoes.length-1}' class='pergunta' onclick="remover('${questoes.length-1}')">Pergunta('${enunciado}', '${alt_certa}', '${alt_2}', '${alt_3}', '${alt_4}', ${nivel}, '${autor}')</button>`;
+			}
+			else{
+				alert("algum campo está incompleto.");
+			}
+		}
+
+		function remover(id){
+			if(confirm("tem certeza que deseja apagar essa questão?")){
+				questoes.splice(id, 1);
+
+				document.getElementById('registros').innerHTML = '';
+
+				for(let i=0;i<questoes.length;i++){
+					document.getElementById('registros').innerHTML += `<button id='quest_${i}' onclick="remover(${i})">Pergunta('${questoes[i].enunciado}', '${questoes[i].alt_certa}', '${questoes[i].alt_2}', '${questoes[i].alt_3}', '${questoes[i].alt_4}', ${questoes[i].nivel}, '${questoes[i].autor}')</button>`;
+				}
+			}
+		}
+	</script>
+
+	<style type="text/css">
+		body{
+			background-color: #ccc;
+			text-align: center;
+			margin: 40px;
+		}
+		.grid{
+			display: grid;
+			grid-gap: 20px;
+			grid-template-columns: 1fr 1fr;
+		}
+		.div{
+			border: 1px solid black;
+			background-color: white;
+			border-radius: 5px;
+			padding: 20px;
+		}
+		.form button{
+			background-color: rgb(255,95,85);
+			border-radius: 3px;
+			border: 1px solid black;
+		}
+		.form button:active{
+			opacity: 0.1;
+		}
+		.form{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+		}
+		.form input, .form textarea{
+			width: 300px;
+		}
+		.form label{
+			margin: 10px;
+		}
+		#registros button{
+			background-color: transparent;
+			border: 0;
+			margin: 5px;
+			padding: 3px;
+			border-bottom: 1px solid rgb(255,95,85);
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Gerador da classe Pergunta() do FON</h1>
+
+	<div class="grid">
+		<div class="div form">
+			<h2>Nova Questão:</h2>
+
+			<label for="enunciado">
+				Enunciado:<br>
+				<textarea id="enunciado" rows="5"></textarea>
+			</label>
+			<label for="alt_certa">
+				Alternativa Correta:<br>
+				<input id="alt_certa" type="text">
+			</label>
+			<label for="alt_2">
+				Alternativa 2:<br>
+				<input id="alt_2" type="text">
+			</label>
+			<label for="alt_3">
+				Alternativa 3:<br>
+				<input id="alt_3" type="text">
+			</label>
+			<label for="alt_4">
+				Alternativa 4:<br>
+				<input id="alt_4" type="text">
+			</label>
+			<label for="nivel">
+				Nivel:<br>
+				<input id="nivel" type="number" min="1" max="3">
+			</label>
+			<label for="autor">
+				Autor:<br>
+				<input id="autor" type="text">
+			</label>
+			<button onclick="registrar()">Registrar</button>
+		</div>
+		<div class="div">
+			<h2>Seus Registros:</h2>
+			<div id="registros"></div>	
+		</div>
+	</div>
+</body>
+</html>
